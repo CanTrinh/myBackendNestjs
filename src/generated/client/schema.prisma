@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id        Int    @id @default(autoincrement())
+  role_name String @unique // "ADMIN", "MOD", "USER", "GUEST"
+  users     User[] @relation
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  password   String  @unique
+  name       String
+  email      String  @unique
+  profilePic String?
+  bio        String?
+
+  roleId Int
+  role   Role @relation(fields: [roleId], references: [id])
+
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
+
+  followers Follow[] @relation("followers")
+  following Follow[] @relation("following")
+
+  messagesSent Message[] @relation("messagesSent")
+  messagesRecv Message[] @relation("messagesRecv")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String
+  mediaUrl  String?
+
+  published Boolean   @default(false)
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  Int
+  comments  Comment[]
+  likes     Like[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model Follow {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  follower   User @relation("followers", fields: [followerId], references: [id])
+  followerId Int
+
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  sender   User @relation("messagesSent", fields: [senderId], references: [id])
+  senderId Int
+
+  receiver   User @relation("messagesRecv", fields: [receiverId], references: [id])
+  receiverId Int
+}
