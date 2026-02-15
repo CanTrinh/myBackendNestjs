@@ -9,19 +9,12 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc && cp -r src/generated/prisma/client dist/generated/prisma/client",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "npm run copy:prisma && nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "copy:prisma": "cpx '../generated/prisma/**' '../generated/prisma'"
+  "dev": "nest start --watch",
+  "start": "node dist/main.js",
+  "build": "tsc && cp -r src/generated/client dist/generated/client",
+  "prisma:generate": "prisma generate",
+  "prisma:migrate": "prisma migrate deploy",
+  "deploy": "git pull origin main && npm install && npm run prisma:generate && npm run build && npm run prisma:migrate && pm2 restart nestjs-app"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
