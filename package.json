@@ -10,7 +10,7 @@
   "license": "UNLICENSED",
   "scripts": {
   "dev": "nest start --watch",
-  "start": "node dist/main.js",
+  "start": "node dist/src/main.js",
   "build": "tsc",
   "prisma:generate": "prisma generate",
   "prisma:migrate": "prisma migrate deploy",

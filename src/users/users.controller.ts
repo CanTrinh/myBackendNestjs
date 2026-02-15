@@ -7,7 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 //import { User} from 'src/generated/client';
 import { User} from '@prisma/client';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 //import { interval, map, Observable } from 'rxjs';
 
 

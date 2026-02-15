@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { Prisma } from 'src/generated/client';
+import { Prisma } from '@prisma/client';
 
 
 @Injectable()

@@ -1,7 +1,7 @@
 
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { comparePasswords } from 'src/bcrypt';
+import { comparePasswords } from '../bcrypt';
 import { JwtService} from '@nestjs/jwt';
 import { jwtConstants} from './constants'
 import { join } from 'path';

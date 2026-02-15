@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { UserCreatedListener } from './listeners/user-created.listener';
-import { AuthService } from 'src/auth/auth.service';
-import { AuthController } from 'src/auth/auth.controller';
+import { AuthService } from '../auth/auth.service';
+import { AuthController } from '../auth/auth.controller';
 
 @Module({
   controllers: [UsersController, AuthController],
