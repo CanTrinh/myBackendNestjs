@@ -4,18 +4,19 @@ import { UsersService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { RegisterDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User as UserModel} from '@prisma/client';
+import { User} from 'src/generated/client';
+//import { User as UserModel} from '@prisma/client';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 //import { interval, map, Observable } from 'rxjs';
 
 
-export interface MessageEvent {
+/*export interface MessageEvent {
   data: string | UserModel["name"];
   id?: string;
   type?: string;
   retry?: number;
-}
+}*/
 
 
 @Controller('user')
@@ -25,7 +26,7 @@ export class UsersController {
   @Post('register')
   async signupUser(
     @Body() userData: { name: string , email: string, password: string},
-  ): Promise<UserModel> {
+  ): Promise<User> {
     //console.log('Received data:', userData);
     const existUse = await this.usersService.findUserByName(userData.name);
     if(existUse){
@@ -56,7 +57,7 @@ export class UsersController {
   @UseInterceptors(FileInterceptor('profilePic'))
   @Put('profile/update-profile')
   async updateProfile(
-    @UploadedFile() file: Express.Multer.File,
+    //@UploadedFile() file: Express.Multer.File,
     @Body() dto: UpdateUserProfileDto,
      @Req() req){
      const userId = req.user.sub; // logged-in user ID from JWT

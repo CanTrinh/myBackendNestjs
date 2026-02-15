@@ -1,5 +1,5 @@
 // register.dto.ts
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength, IsOptional } from 'class-validator';
 
 export class RegisterDto {
   @IsNotEmpty()
@@ -13,6 +13,7 @@ export class RegisterDto {
   password: string;
 
   // Optional fields if you want them at signup
+  @IsOptional()
   profilePic?: string;
   bio?: string;
 }
