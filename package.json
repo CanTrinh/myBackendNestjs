@@ -11,7 +11,7 @@
   "scripts": {
   "dev": "nest start --watch",
   "start": "node dist/main.js",
-  "build": "tsc",
+  "build": "tsc && mkdir -p dist/src/generated && cp -r src/generated/client dist/src/generated/client",
   "prisma:generate": "prisma generate",
   "prisma:migrate": "prisma migrate deploy",
   "deploy": "git pull origin main && npm install && npm run prisma:generate && npm run build && npm run prisma:migrate && pm2 restart nestjs-app"
