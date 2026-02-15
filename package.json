@@ -9,7 +9,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc && cp -r generated/prisma dist/generated/prisma/client",
+    "build": "tsc && cp -r generated/prisma/client dist/generated/prisma/client",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "npm run copy:prisma && nest start --watch",
