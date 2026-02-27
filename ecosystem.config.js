@@ -7,7 +7,7 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: "700M",
-      env: {
+      env_production: {
         DATABASE_URL: "mysql://admin:Saostar1995@mydatabase.c5iggco2eked.ap-southeast-2.rds.amazonaws.com:3306/mysql",
         JWT_SECRET: "hskhsierihn3759kfjjruiurkfur",
         JWT_EXPIRES_IN: "1h"
