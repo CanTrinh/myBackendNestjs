@@ -15,7 +15,7 @@ async function bootstrap() {
       AppModule,
   );
   app.enableCors({
-    origin: '*', // Adjust this based on your security needs
+    origin: ['https://ctlife.xyz', 'https://www.ctlife.xyz'], // Adjust this based on your security needs
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
