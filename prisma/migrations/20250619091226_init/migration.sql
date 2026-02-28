@@ -12,7 +12,7 @@ ALTER TABLE `user` ADD COLUMN `email` VARCHAR(191) NOT NULL,
     ADD COLUMN `password` VARCHAR(191) NOT NULL;
 
 -- CreateIndex
-CREATE UNIQUE INDEX `User_password_key` ON `User`(`password`);
+CREATE UNIQUE INDEX `User_password_key` ON `user`(`password`);
 
 -- CreateIndex
-CREATE UNIQUE INDEX `User_email_key` ON `User`(`email`);
+CREATE UNIQUE INDEX `User_email_key` ON `user`(`email`);
