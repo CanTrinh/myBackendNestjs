@@ -54,11 +54,11 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
-  @UseInterceptors(FileInterceptor('profilePic'))
   @Put('profile/update-profile')
+  @UseInterceptors(FileInterceptor('profilePic'))
   async updateProfile(
-    //@UploadedFile() file: Express.Multer.File,
-    @Body() dto: UpdateUserProfileDto,
+    @UploadedFile() file: Express.Multer.File,
+    @Body('bio') bio: string,
      @Req() req){
      const userId = req.user.sub; // logged-in user ID from JWT
      let profilePicUrl: string | undefined;
@@ -71,7 +71,7 @@ export class UsersController {
     }*/
 
      //console.log(userId);
-    return this.usersService.updateUser(dto, userId);
+    return this.usersService.updateUser(userId,file,bio);
   }
 
   @Delete(':id')

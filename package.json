@@ -9,14 +9,15 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-  "dev": "nest start --watch",
-  "start": "node dist/src/main.js",
-  "build": "tsc",
-  "prisma:generate": "prisma generate",
-  "prisma:migrate": "prisma migrate deploy",
-  "deploy": "git pull origin main && npm install && npm run prisma:generate && npm run build && npm run prisma:migrate && pm2 restart nestjs-app"
+    "dev": "nest start --watch",
+    "start": "node dist/src/main.js",
+    "build": "tsc",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "deploy": "git pull origin main && npm install && npm run prisma:generate && npm run build && npm run prisma:migrate && pm2 restart nestjs-app"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.958.0",
     "@fastify/cookie": "^11.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -52,6 +53,7 @@
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.2",
     "@types/jest": "^29.5.14",
+    "@types/multer": "^2.0.0",
     "@types/node": "^22.19.5",
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",

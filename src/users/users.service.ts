@@ -6,17 +6,26 @@ import { User, Prisma } from '@prisma/client';
 import { encodePassword } from '../bcrypt';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { RegisterDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 
 
 @Injectable()
 export class UsersService {
+  name: string
+
+  private s3 = new S3Client({ 
+    region: process.env.AWS_REGION!, 
+    credentials: {
+       accessKeyId: process.env.AWS_ACCESS_KEY_ID!, 
+       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, 
+      }, 
+  });
+
   constructor(private prisma: PrismaService,
               private eventEmitter: EventEmitter2
   ) {}
 
-  name: string
 
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
@@ -70,16 +79,36 @@ export class UsersService {
 
   }
 
-  async updateUser(userProfileUpdateData: UpdateUserProfileDto, userId: number): Promise<User> {
-  
+  async updateUser(userId: number, file: Express.Multer.File, bio?: string): Promise<User> {
+    let fileUrl: string | undefined;
+
+    if (file){
+      const key = `profile-pics/${Date.now()}-${file.originalname}`;
+
+      await this.s3.send( 
+        new PutObjectCommand({ 
+          Bucket: process.env.AWS_S3_BUCKET!, 
+          Key: key, 
+          Body: file.buffer, 
+          ContentType: file.mimetype, }), 
+      );
+
+      await this.s3.send( new PutObjectCommand({ Bucket: process.env.AWS_S3_BUCKET!, Key: key, Body: file.buffer, ContentType: file.mimetype, }), );
+
+    }
+
+    const updateData: UpdateUserProfileDto = { 
+      bio, 
+      profilePic: fileUrl, 
+    };
+    
+    
+    
     return this.prisma.user.update({
       where:{
         id: userId,
       },
-      data: {
-        bio: userProfileUpdateData.bio,
-        profilePic: userProfileUpdateData.profilePic,
-      }
+      data: updateData,
 
     });
   }
