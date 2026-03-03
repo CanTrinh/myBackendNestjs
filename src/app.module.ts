@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CommentsModule } from './comments/comments.module';
+import { S3Module } from './s3/s3.module';
 
 
 @Module({
@@ -35,6 +36,7 @@ import { CommentsModule } from './comments/comments.module';
      PostsModule,
      CategoriesModule,
      CommentsModule,
+     S3Module
   ],
   controllers: [AppController],
   providers: [AppService],
