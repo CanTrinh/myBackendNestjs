@@ -13,7 +13,7 @@ module.exports = {
         JWT_EXPIRES_IN: "1h",
         // AWS S3 credentials
         AWS_ACCESS_KEY_ID: "AKIATNLGZDRPUEGJZBND",
-        AWS_SECRET_ACCESS_KEY: "Canteo@95",
+        AWS_SECRET_ACCESS_KEY: "Saostar@95",
         AWS_REGION: "ap-southeast-2",
         AWS_S3_BUCKET: "my-frontend-angular"
       },
