@@ -9,7 +9,7 @@ export function encodePassword(rawPassword:string) {
     }*/
     
     const SALT = bcrypt.genSaltSync();
-    return bcrypt.hashSync(rawPassword,SALT);
+    return bcrypt.hashSync(rawPassword,SALT );
     
 }
 
