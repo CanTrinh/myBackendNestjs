@@ -14,7 +14,7 @@ module.exports = {
         // AWS S3 credentials
         AWS_ACCESS_KEY_ID: "AKIATNLGZDRPQ2UN2MOB",
         AWS_SECRET_ACCESS_KEY: "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",
-        AWS_REGION: "ap-southeast-2",
+        AWS_REGION: "ap-southeast-2"  ,
         AWS_S3_BUCKET: "my-frontend-angular"
       },
        post_update: [
