@@ -30,7 +30,7 @@ export class AuthService {
       throw new UnauthorizedException();
       }else {
       
-      const userInfor = { sub: user?.id, name: user?.name, role: user.role.role_name};
+      const userInfor = { sub: user?.id, name: user?.name, role: user.role.role_name, bio: user?.bio, profilePic: user?.profilePic};
       const access_token= await this.jwtService.signAsync(userInfor, jwtConstants);
       
      
