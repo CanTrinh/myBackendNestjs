@@ -12,9 +12,9 @@ module.exports = {
         JWT_SECRET: "hskhsierihn3759kfjjruiurkfur",
         JWT_EXPIRES_IN: "1h",
         // AWS S3 credentials
-        AWS_ACCESS_KEY_ID: "AKIATNLGZDRPQ2UN2MOB",
-        AWS_SECRET_ACCESS_KEY: "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",
-        AWS_REGION: "ap-southeast-2"  ,
+        AWS_ACCESS_KEY_ID: "AKIATNLGZDRPUEGJZBND",
+        AWS_SECRET_ACCESS_KEY: "Saostar@95",
+        AWS_REGION: "ap-southeast-2",
         AWS_S3_BUCKET: "my-frontend-angular"
       },
        post_update: [
