@@ -85,7 +85,6 @@ export class UsersService {
 
     if (file){
       const key = `profile-pics/${Date.now()}-${file.originalname}`;
-      fileUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
       await this.s3.send( 
         new PutObjectCommand({ 
           Bucket: process.env.AWS_S3_BUCKET!, 
