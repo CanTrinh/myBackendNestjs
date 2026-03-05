@@ -25,12 +25,13 @@ export class AuthService {
     //console.log(hashedPassword);
     // hash pass cua request den de so sanh voi user.password da hash va da luu vao database
     if (user){
+      
       //console.log(comparePasswords(Password,user?.password));
       if (comparePasswords(Password,user.password)!==true) {
       throw new UnauthorizedException();
       }else {
-      
-      const userInfor = { sub: user?.id, name: user?.name, role: user.role.role_name, bio: user?.bio, profilePic: user?.profilePic};
+      const presignedUrl = await this.usersService.getPresignedUrl(user.profilePic);
+      const userInfor = { sub: user?.id, name: user?.name, role: user.role.role_name, bio: user?.bio, profilePic: presignedUrl};
       const access_token= await this.jwtService.signAsync(userInfor, jwtConstants);
       
      

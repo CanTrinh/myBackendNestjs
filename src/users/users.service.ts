@@ -6,7 +6,8 @@ import { User, Prisma } from '@prisma/client';
 import { encodePassword } from '../bcrypt';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { RegisterDto } from './dto/create-user.dto';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 
 
@@ -21,6 +22,15 @@ export class UsersService {
        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, 
       }, 
   });
+
+  async getPresignedUrl(key: string): Promise<string> {
+    const command = new GetObjectCommand({
+      Bucket: process.env.AWS_S3_BUCKET,
+      Key: key,
+    });
+    return await getSignedUrl(this.s3, command, { expiresIn: 3600 }); // 1 hour
+  };
+
 
   constructor(private prisma: PrismaService,
               private eventEmitter: EventEmitter2
@@ -80,12 +90,12 @@ export class UsersService {
   }
 
   async updateUser(userId: number, file: Express.Multer.File, bio?: string): Promise<User> {
-    let fileUrl: string | undefined;
+    let key: string | undefined;
     
 
     if (file){
-      const key = `profile-pics/${Date.now()}-${file.originalname}`;
-      fileUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}` ;
+      key = `profile-pics/${Date.now()}-${file.originalname}`;
+      //fileUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}` ;
       await this.s3.send( 
         new PutObjectCommand({ 
           Bucket: process.env.AWS_S3_BUCKET!, 
@@ -100,7 +110,7 @@ export class UsersService {
 
     const updateData: UpdateUserProfileDto = { 
       bio, 
-      profilePic: fileUrl, 
+      profilePic: key, 
     };
     
     
