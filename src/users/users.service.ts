@@ -10,6 +10,7 @@ import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 
+import * as sharp from 'sharp';
 
 @Injectable()
 export class UsersService {
@@ -94,14 +95,21 @@ export class UsersService {
     
 
     if (file){
-      key = `profile-pics/${Date.now()}-${file.originalname}`;
+      const fileName = file.originalname.split('.')[0]; 
+      key = `profile-pics/${Date.now()}-${fileName}.webp`;
       //fileUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}` ;
+      // Sử dụng Sharp để: Resize về 400x400, Chuyển sang định dạng WebP (rất nhẹ), Nén chất lượng 80%
+      const optimizedImage = await sharp(file.buffer)
+      .resize(400, 400, { fit: 'cover' }) // Cắt ảnh vuông đẹp
+      .webp({ quality: 80 })              // Định dạng webp nhẹ hơn jpg/png
+      .toBuffer();
+
       await this.s3.send( 
         new PutObjectCommand({ 
           Bucket: process.env.AWS_S3_BUCKET!, 
           Key: key, 
-          Body: file.buffer, 
-          ContentType: file.mimetype, }), 
+          Body: optimizedImage, 
+          ContentType: 'image/webp', }), 
       );
 
       await this.s3.send( new PutObjectCommand({ Bucket: process.env.AWS_S3_BUCKET!, Key: key, Body: file.buffer, ContentType: file.mimetype, }), );
