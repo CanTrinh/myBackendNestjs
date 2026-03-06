@@ -7,6 +7,7 @@ import * as session from 'express-session';
 import fastifyCookie from '@fastify/cookie';
 import { FastifyAdapter, NestFastifyApplication} from '@nestjs/platform-fastify'
 import { from } from 'rxjs';
+import { json, urlencoded } from 'express';
 
 
 
@@ -29,6 +30,11 @@ async function bootstrap() {
       }
     )
   )
+
+  // Nâng giới hạn body request
+  app.use(json({ limit: '20mb' }));
+  app.use(urlencoded({ limit: '20mb', extended: true }));
+
   await app.listen(3000, '0.0.0.0');
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
